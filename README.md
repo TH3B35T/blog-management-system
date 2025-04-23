@@ -62,15 +62,15 @@ The application will be available at:
 
 ### Deployed Version
 
-- **API URL**: https://blog-management-api.onrender.com
-- **API Documentation**: https://blog-management-api.onrender.com/api
+- **API URL**: https://blog-management-system-onze.onrender.com/
+- **API Documentation**: https://blog-management-system-onze.onrender.com/api
 - **Database**: PostgreSQL hosted on Neon
 
 ### Deployment Instructions
 
-#### Database Setup (ElephantSQL)
+#### Database Setup (Neon)
 
-1. Create a free PostgreSQL database on [ElephantSQL](https://www.elephantsql.com/)
+1. Create a free PostgreSQL database on [Neon](https://neon.tech/)
 2. Copy the connection URL from your instance details
 
 #### API Deployment (Render)
@@ -79,13 +79,9 @@ The application will be available at:
 2. Sign up on [Render](https://render.com/)
 3. Create a new Web Service and connect your GitHub repository
 4. Configure the service:
-   - Build Command: `npm install && npm run build`
    - Start Command: `npm run start:prod`
 5. Add environment variables:
-   - `DATABASE_URL`: Your PostgreSQL connection URL
-   - `JWT_SECRET`: A secure random string
-   - `JWT_EXPIRATION_TIME`: Token lifetime in seconds (e.g., 3600)
-   - `NODE_ENV`: Set to "production"
+   Follow .env.example for production details
 
 The service will automatically deploy when you push changes to your repository.
 
