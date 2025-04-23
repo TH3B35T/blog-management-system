@@ -12,16 +12,9 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - NODE_ENV=${NODE_ENV:-development}
-      - DB_HOST=${DB_HOST:-postgres}
-      - DB_PORT=${DB_PORT:-5432}
-      - DB_USERNAME=${DB_USERNAME:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-postgres}
-      - DB_DATABASE=${DB_DATABASE:-blog_db}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRATION_TIME=${JWT_EXPIRATION_TIME:-3600}
+      - NODE_ENV=development
     env_file:
-      - .env
+      - .env.development
     depends_on:
       - postgres
     restart: unless-stopped
@@ -34,7 +27,7 @@ services:
       retries: 5
 
   postgres:
-    image: postgres:13
+    image: postgres:14
     container_name: blog_db
     ports:
       - '5432:5432'
@@ -49,7 +42,7 @@ services:
     networks:
       - blog-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5

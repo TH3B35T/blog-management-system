@@ -36,28 +36,20 @@ cd blog-management-system
 
 ### 2. Create environment files
 
-Create a `.env` file in the project root:
+Create `.env.production` and `.env.development` file in the project root:
 
-```
-# Database Configuration
-DB_HOST=postgres
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-DB_DATABASE=blog_db
-
-# JWT Configuration
-JWT_SECRET=your_strong_secret_key
-JWT_EXPIRATION_TIME=3600
-
-# Node Environment
-NODE_ENV=development
-```
+Follow the instrections in `.env.example`
 
 ### 3. Start the application with Docker Compose
 
+## For DEV using docker image "postgres & pgadmin"
 ```bash
 docker-compose up -d
+```
+
+## For PRODUCTION using postgres "deployed on neon"
+```bash
+docker-compose.prod.yml up -d
 ```
 
 The application will be available at:
@@ -70,9 +62,9 @@ The application will be available at:
 
 ### Deployed Version
 
-- **API URL**: https://blog-management-api.onrender.com (or your Railway URL)
+- **API URL**: https://blog-management-api.onrender.com
 - **API Documentation**: https://blog-management-api.onrender.com/api
-- **Database**: PostgreSQL hosted on ElephantSQL/Neon
+- **Database**: PostgreSQL hosted on Neon
 
 ### Deployment Instructions
 

@@ -16,16 +16,27 @@ import { PassportDebugMiddleware } from './common/middleware/passport-debug.midd
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: parseInt(configService.get('DB_PORT') || '5432'), // Default to 5432 if undefined
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // set to false in production
-      }),
+      useFactory: (configService: ConfigService) => {
+        console.log('Current NODE_ENV:', configService.get('NODE_ENV'));
+        return {
+          type: 'postgres',
+          host: configService.get('DB_HOST'),
+          port: parseInt(configService.get('DB_PORT') || '5432'), // Default to 5432 if undefined
+          username: configService.get('DB_USERNAME'),
+          password: configService.get('DB_PASSWORD'),
+          database: configService.get('DB_DATABASE'),
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          synchronize: configService.get('NODE_ENV') !== 'production', // set to false in production
+          ssl: configService.get('DB_SSL') === 'true',
+          ...(configService.get('DB_SSL') === 'true' && {
+            extra: {
+              ssl: {
+                rejectUnauthorized: false,
+              },
+            },
+          }),
+        };
+      },
     }),
     UsersModule,
     AuthModule,
