@@ -108,7 +108,7 @@ The service will automatically deploy when you push changes to your repository.
 ## Role-Based Access
 
 - **Admin**: Can create, update, and delete any blog post
-- **Editor**: Can create and update blog posts (but only delete their own)
+- **Editor**: Can create and update blog posts
 - **User**: Can read blog posts
 
 ## Testing the API
@@ -140,6 +140,7 @@ curl -X POST http://localhost:3000/auth/login \
 ```
 
 Save the returned token for subsequent requests.
+*Testing with Swagger requires manually copying the access token's key value from the response, scrolling to the top page, clicking on the Authorize button, pasting the access token value inside the input field, and clicking again on the Authorize button.
 
 ### 3. Create a blog post
 
