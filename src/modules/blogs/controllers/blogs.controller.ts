@@ -125,7 +125,7 @@ export class BlogsController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.EDITOR)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a blog post' })
   @ApiParam({ name: 'id', description: 'Blog post ID' })

@@ -60,14 +60,14 @@ export class BlogsService {
 
   async remove(id: string, user: User): Promise<void> {
     this.logger.log(`Removing blog with id: ${id} by user: ${user.username}`);
-    const blog = await this.findOne(id);
+    // const blog = await this.findOne(id);
 
-    // Only admin can delete any blog post, editors and users can only delete their own
-    if (blog.authorId !== user.id && user.role !== Role.ADMIN) {
-      throw new ForbiddenException(
-        'You do not have permission to delete this blog post',
-      );
-    }
+    // // Only admin can delete any blog post, editors and users can only delete their own
+    // if (blog.authorId !== user.id && user.role !== Role.ADMIN) {
+    //   throw new ForbiddenException(
+    //     'You do not have permission to delete this blog post',
+    //   );
+    // }
 
     await this.blogsRepository.remove(id);
   }

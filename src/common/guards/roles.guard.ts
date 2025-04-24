@@ -6,6 +6,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
   Logger,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from '../enums/role.enum';
@@ -34,7 +35,9 @@ export class RolesGuard implements CanActivate {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       this.logger.error('No authorization header found');
-      throw new UnauthorizedException('No authorization header found');
+      throw new UnauthorizedException(
+        'Authentication required. Please provide a valid token.',
+      );
     }
 
     // Check user object
@@ -42,7 +45,9 @@ export class RolesGuard implements CanActivate {
       this.logger.error(
         'User object is undefined - authorization will be denied',
       );
-      throw new UnauthorizedException('User not authenticated');
+      throw new UnauthorizedException(
+        'User not authenticated or token is invalid.',
+      );
     }
 
     // Log user object
@@ -54,11 +59,18 @@ export class RolesGuard implements CanActivate {
       this.logger.error(
         `User has no role property: ${JSON.stringify(req.user)}`,
       );
-      throw new UnauthorizedException('User has no role');
+      throw new ForbiddenException('User has no assigned role.');
     }
 
-    const hasRole = requiredRoles.some((role) => req.user.role === role);
+    const userRole = req.user.role;
+    const hasRole = requiredRoles.includes(userRole);
     this.logger.debug(`User has required role: ${hasRole}`);
+
+    if (!hasRole) {
+      throw new ForbiddenException(
+        'Insufficient permissions to access this resource.',
+      );
+    }
 
     return hasRole;
   }
